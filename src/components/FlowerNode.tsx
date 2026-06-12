@@ -43,63 +43,40 @@ export default function FlowerNode({
   flowerStats,
   overlaps = {},
   hiddenSlots = {},
-  getSlotStats,
-  updateSlotStats
 }: Props) {
   const unlocked = getUnlockedSlots(flower.level);
   const totals = getFlowerTotals(flowerStats);
   const levels = getFlowerLevels(totals);
-  const plantSlot = slot as PlantDirection;
-  const isOverlap = overlaps[plantSlot];
-  const isHidden = hiddenSlots[plantSlot];
 
   return (
     <div className="flower-node">
       <div className="flower-slots">
-         {SLOT_ORDER.map(slot => {
-
-            if (slot === "C") {
-                return (
-                <div
-                    key={slot}
-                    className="slot center"
-                >
-                    {flower.name[0].toLowerCase()}:{flower.level}
-                </div>
-                );
-            }
-
-
-            const plantSlot =
-                slot as PlantDirection;
-
-
-            const isOpen =
-                unlocked.has(slot);
-
-
-            const isOverlap =
-                overlaps[plantSlot];
-
-
-            const isHidden =
-                hiddenSlots[plantSlot];
-
-
+        {SLOT_ORDER.map(slot => {
+          if (slot === "C") {
             return (
-                <div
-                key={slot}
-                className={[
-                    "slot",
-                    isOpen ? "open" : "closed",
-                    isOverlap ? "overlap" : "",
-                    isHidden ? "hidden-slot" : ""
-                ]
-                .filter(Boolean)
-                .join(" ")}
-                />
+              <div key={slot} className="slot center">
+                {flower.name[0].toLowerCase()}:{flower.level}
+              </div>
             );
-            })}
+          }
+
+          const plantSlot = slot as PlantDirection;
+          const isOpen = unlocked.has(slot);
+          const isOverlap = overlaps[plantSlot];
+          const isHidden = hiddenSlots[plantSlot];
+
+          return (
+            <div
+              key={slot}
+              className={[
+                "slot",
+                isOpen ? "open" : "closed",
+                isOverlap ? "overlap" : "",
+                isHidden ? "hidden-slot" : ""
+              ].filter(Boolean).join(" ")}
+            />
+          );
+        })}
       </div>
 
       <div className="flower-stats-mini">

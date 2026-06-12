@@ -1,3 +1,5 @@
+import type { StatType } from "./stats";
+
 export type Direction =
   | "NW"
   | "N"
@@ -12,7 +14,11 @@ export type Direction =
 export interface Flower {
   id: string;
   name: string;
+
   level: number;
+
+  primaryStat: StatType;
+  secondaryStat: StatType;
 }
 
 export interface SharedPlant {

@@ -1,50 +1,39 @@
-import { useState }
-from "react";
+import { useState } from "react";
+import { getEmptySlotStats } from "../utils/statCalculator";
+import type { FlowerStats, SlotStats } from "../types/stats";
 
-import type {
-  FlowerStats,
-  SlotStats
-}
-from "../types/stats";
+export function useStats() {
+  const [stats, setStats] = useState<Record<string, FlowerStats>>({});
 
-export function useStats(){
+  function getSlotStats(flowerId: string, slot: string): SlotStats {
+    return stats[flowerId]?.slots[slot] ?? getEmptySlotStats();
+  }
 
-  const [stats,setStats]
-    = useState<
-      Record<
-        string,
-        FlowerStats
-      >
-    >({});
-
-  const updateSlot = (
-    flowerId:string,
-    position:string,
-    values:SlotStats
-  ) => {
-
+  function updateSlotStats(
+    flowerId: string,
+    slot: string,
+    values: SlotStats
+  ) {
     setStats(prev => ({
-
       ...prev,
-
       [flowerId]: {
-
         flowerId,
-
         slots: {
-
-          ...(prev[flowerId]
-            ?.slots ?? {}),
-
-          [position]: values
+          ...(prev[flowerId]?.slots ?? {}),
+          [slot]: values
         }
       }
     }));
-  };
+  }
+
+  function resetStats() {
+    setStats({});
+  }
 
   return {
-
     stats,
-    updateSlot
+    getSlotStats,
+    updateSlotStats,
+    resetStats
   };
 }

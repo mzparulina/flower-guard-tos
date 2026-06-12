@@ -1,32 +1,21 @@
 import type { StatType } from "./stats";
 
 export type Direction =
-  | "NW"
-  | "N"
-  | "NE"
-  | "W"
-  | "C"
-  | "E"
-  | "SW"
-  | "S"
-  | "SE";
+  | "NW" | "N" | "NE"
+  | "W" | "C" | "E"
+  | "SW" | "S" | "SE";
 
 export interface Flower {
   id: string;
   name: string;
-
   level: number;
-
   primaryStat: StatType;
   secondaryStat: StatType;
 }
 
 export interface SharedPlant {
   id: string;
-
-  flowers: {
-    [flowerId: string]: Direction;
-  };
+  flowers: Record<string, Direction>;
 }
 
 export interface Position {

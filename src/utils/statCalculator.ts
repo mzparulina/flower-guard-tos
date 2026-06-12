@@ -1,88 +1,47 @@
-import { STAT_LEVELS }
-from "../data/statThresholds";
+import { STAT_LEVELS } from "../data/statThresholds";
+import { EMPTY_SLOT_STATS, STAT_TYPES } from "../types/stats";
+import type { FlowerStats, StatTotals } from "../types/stats";
 
-import type {
-  FlowerStats,
-  StatType
-}
-from "../types/stats";
-
-export function getStatLevel(
-  points:number
-){
-
+export function getStatLevel(points: number): number {
   let level = 0;
 
-  for(const row of STAT_LEVELS){
-
-    if(points >= row.points){
-      level = row.level;
+  for (const threshold of STAT_LEVELS) {
+    if (points >= threshold.points) {
+      level = threshold.level;
     }
   }
 
   return level;
 }
 
-export function getFlowerTotals(
-  stats: FlowerStats
-){
+export function createEmptyTotals(): StatTotals {
+  return { ...EMPTY_SLOT_STATS };
+}
 
-  const totals = {
+export function getFlowerTotals(flowerStats?: FlowerStats): StatTotals {
+  const totals = createEmptyTotals();
 
-    strength:0,
-    wisdom:0,
-    morale:0,
-    agility:0,
-    stamina:0
-  };
+  if (!flowerStats) return totals;
 
-  Object.values(
-    stats.slots
-  ).forEach(slot => {
-
-    totals.strength += slot.strength;
-    totals.wisdom += slot.wisdom;
-    totals.morale += slot.morale;
-    totals.agility += slot.agility;
-    totals.stamina += slot.stamina;
-
-  });
+  for (const slot of Object.values(flowerStats.slots)) {
+    for (const stat of STAT_TYPES) {
+      totals[stat] += slot[stat] ?? 0;
+    }
+  }
 
   return totals;
 }
 
-export function getFlowerLevels(
-  stats: FlowerStats
-){
+export function getFlowerLevels(totals: StatTotals): StatTotals {
+  const levels = createEmptyTotals();
 
-  const totals =
-    getFlowerTotals(stats);
+  for (const stat of STAT_TYPES) {
+    levels[stat] = getStatLevel(totals[stat]);
+  }
 
-  return {
+  return levels;
+}
 
-    strength:
-      getStatLevel(
-        totals.strength
-      ),
-
-    wisdom:
-      getStatLevel(
-        totals.wisdom
-      ),
-
-    morale:
-      getStatLevel(
-        totals.morale
-      ),
-
-    agility:
-      getStatLevel(
-        totals.agility
-      ),
-
-    stamina:
-      getStatLevel(
-        totals.stamina
-      )
-  };
+export function getEmptySlotStats() {
+  return { ...EMPTY_SLOT_STATS };
 }

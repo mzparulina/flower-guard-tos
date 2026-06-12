@@ -20,7 +20,7 @@ export default function StatEditor({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-1">
+    <div className="grid grid-cols-1 gap-1 stat-editor">
       {STAT_TYPES.filter(stat => allowedStats.includes(stat)).map(stat => (
         <label key={stat} className="flex items-center justify-between gap-1 text-[10px]">
           <span className="uppercase text-slate-400">{stat.slice(0, 3)}</span>

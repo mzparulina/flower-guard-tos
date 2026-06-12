@@ -1,9 +1,12 @@
 import type { StatType } from "./stats";
 
+
 export type Direction =
   | "NW" | "N" | "NE"
   | "W" | "C" | "E"
   | "SW" | "S" | "SE";
+
+export type PlantDirection = Exclude<Direction, "C">;
 
 export interface Flower {
   id: string;

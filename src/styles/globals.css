@@ -1,0 +1,125 @@
+:root {
+  --bg: #0b1020;
+  --panel: rgba(255,255,255,.06);
+  --panel2: rgba(255,255,255,.10);
+
+  --open-bg: rgba(120,255,190,.18);
+  --open-bd: rgba(120,255,190,.45);
+
+  --closed-bg: rgba(255,120,160,.12);
+  --closed-bd: rgba(255,120,160,.28);
+
+  --center-bg: rgba(120,170,255,.22);
+  --center-bd: rgba(120,170,255,.40);
+
+  --node: 170px;
+  --padIn: 10px;
+  --gap: 8px;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(900px 400px at 50% -20%, rgba(120,170,255,.15), transparent 60%),
+    radial-gradient(900px 600px at 10% 10%, rgba(255,120,220,.08), transparent 60%),
+    radial-gradient(900px 600px at 90% 30%, rgba(120,255,190,.06), transparent 60%),
+    var(--bg);
+  color: #e7ecff;
+  font-family: system-ui, sans-serif;
+}
+
+.garden-viewport {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  padding: 24px;
+}
+
+.garden-canvas {
+  position: relative;
+  margin: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  backdrop-filter: blur(10px);
+}
+
+.flower-position {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.flower-node {
+  width: var(--node);
+  height: var(--node);
+  padding: var(--padIn);
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--panel2), var(--panel));
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 10px 18px rgba(0,0,0,.25);
+}
+
+.flower-slots {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: var(--gap);
+}
+
+.slot {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(231,236,255,.05);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot.open {
+  background: var(--open-bg);
+  border-color: var(--open-bd);
+}
+
+.slot.closed {
+  background: var(--closed-bg);
+  border-color: var(--closed-bd);
+}
+
+.slot.center {
+  background: var(--center-bg);
+  border-color: var(--center-bd);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: .4px;
+}
+
+.slot.overlap::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 10px;
+  border: 2px solid rgba(120,170,255,.85);
+  box-shadow: 0 0 12px rgba(120,170,255,.35);
+}
+
+.flower-stats-mini {
+  display: none;
+}
+
+.stat-editor {
+  display: none;
+}
+
+.slot.hidden-slot {
+  opacity: 0;
+  pointer-events: none;
+  border-color: transparent;
+  background: transparent;
+}
+
+.slot.hidden-slot::after {
+  display: none;
+}

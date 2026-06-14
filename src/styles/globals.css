@@ -1,125 +1,414 @@
+/* =========================
+   FLOWER GUARDIAN GLOBAL UI
+========================= */
+
 :root {
   --bg: #0b1020;
+
   --panel: rgba(255,255,255,.06);
   --panel2: rgba(255,255,255,.10);
 
   --open-bg: rgba(120,255,190,.18);
-  --open-bd: rgba(120,255,190,.45);
+  --open-border: rgba(120,255,190,.45);
 
   --closed-bg: rgba(255,120,160,.12);
-  --closed-bd: rgba(255,120,160,.28);
+  --closed-border: rgba(255,120,160,.28);
 
-  --center-bg: rgba(120,170,255,.22);
-  --center-bd: rgba(120,170,255,.40);
+  --center-bg: rgba(120,170,255,.25);
+  --center-border: rgba(120,170,255,.55);
 
+  --shared-border: rgba(120,170,255,.95);
+
+  /* MUST MATCH layoutMath.ts */
   --node: 170px;
-  --padIn: 10px;
+  --padding: 10px;
   --gap: 8px;
 }
 
-body {
-  margin: 0;
-  background:
-    radial-gradient(900px 400px at 50% -20%, rgba(120,170,255,.15), transparent 60%),
-    radial-gradient(900px 600px at 10% 10%, rgba(255,120,220,.08), transparent 60%),
-    radial-gradient(900px 600px at 90% 30%, rgba(120,255,190,.06), transparent 60%),
-    var(--bg);
-  color: #e7ecff;
-  font-family: system-ui, sans-serif;
+
+/* =========================
+   RESET
+========================= */
+
+* {
+  box-sizing: border-box;
 }
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+
+body {
+
+  background:
+    radial-gradient(
+      900px 500px at 50% -10%,
+      rgba(120,170,255,.14),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 600px at 20% 20%,
+      rgba(255,120,220,.08),
+      transparent 60%
+    ),
+    var(--bg);
+
+  color: #e7ecff;
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  text-align:center;
+  padding:40px 20px 10px;
+}
+
+
+.header h1 {
+
+  margin:0;
+
+  font-size:52px;
+  font-weight:700;
+
+  letter-spacing:-2px;
+}
+
+
+.header p {
+
+  margin-top:12px;
+
+  font-size:18px;
+
+  color:#9ca3af;
+}
+
+
+/* =========================
+   VIEWPORT
+========================= */
+
 
 .garden-viewport {
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-  padding: 24px;
+
+  width:100vw;
+
+  overflow:auto;
+
+  padding:
+    30px
+    60px
+    80px;
+
+  display:flex;
+
+  justify-content:center;
 }
+
+
+/* =========================
+   CANVAS
+========================= */
+
 
 .garden-canvas {
-  position: relative;
-  margin: auto;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.03);
-  backdrop-filter: blur(10px);
+
+  position:relative;
+
+
+  border-radius:24px;
+
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.015)
+    );
+
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 30px 80px rgba(0,0,0,.35);
+
+
+  overflow:hidden;
 }
 
+
+/* absolute flower position */
 .flower-position {
-  position: absolute;
-  left: 0;
-  top: 0;
+
+  position:absolute;
+
+  left:0;
+  top:0;
+
+  will-change:transform;
 }
+
+
+/* =========================
+   FLOWER NODE
+========================= */
+
 
 .flower-node {
+
   width: var(--node);
   height: var(--node);
-  padding: var(--padIn);
-  border-radius: 18px;
-  background: linear-gradient(180deg, var(--panel2), var(--panel));
-  border: 1px solid rgba(255,255,255,.14);
-  box-shadow: 0 10px 18px rgba(0,0,0,.25);
+
+  padding: var(--padding);
+
+  /*
+    IMPORTANT:
+    remove panel background
+    because flowers physically overlap
+  */
+  background: transparent;
+
+  border: none;
+
+  box-shadow: none;
+
+  overflow: visible;
 }
+
+
+/* =========================
+   3x3 SLOT GRID
+========================= */
+
 
 .flower-slots {
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: var(--gap);
+
+  width:100%;
+  height:100%;
+
+
+  display:grid;
+
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+
+  grid-template-rows:
+    repeat(3,1fr);
+
+
+  gap:var(--gap);
 }
+
+
+
+/* =========================
+   SLOT
+========================= */
+
 
 .slot {
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(231,236,255,.05);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+  width:100%;
+  height:100%;
+
+
+  border-radius:14px;
+
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+
+  position:relative;
+
+
+  transition:.15s ease;
 }
+
+
+.slot:hover {
+
+  transform:scale(1.05);
+}
+
+
+/* OPEN SLOT */
 
 .slot.open {
-  background: var(--open-bg);
-  border-color: var(--open-bd);
+
+  background:
+    var(--open-bg);
+
+
+  border-color:
+    var(--open-border);
 }
+
+
+/* LOCKED SLOT */
 
 .slot.closed {
-  background: var(--closed-bg);
-  border-color: var(--closed-bd);
+
+  background:
+    var(--closed-bg);
+
+
+  border-color:
+    var(--closed-border);
 }
+
+
+/* CENTER FLOWER */
 
 .slot.center {
-  background: var(--center-bg);
-  border-color: var(--center-bd);
-  font-weight: 900;
-  font-size: 22px;
-  letter-spacing: .4px;
+
+  background:
+    var(--center-bg);
+
+
+  border-color:
+    var(--center-border);
+
+
+  color:white;
+
+
+  font-size:22px;
+
+  font-weight:900;
+
+
+  letter-spacing:.5px;
 }
+
+
+
+/* =========================
+   SHARED PLANT OWNER
+========================= */
+
 
 .slot.overlap::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border-radius: 10px;
-  border: 2px solid rgba(120,170,255,.85);
-  box-shadow: 0 0 12px rgba(120,170,255,.35);
+
+  content:"";
+
+
+  position:absolute;
+
+
+  inset:7px;
+
+
+  border-radius:10px;
+
+
+  border:
+
+    3px solid
+
+    var(--shared-border);
+
+
+  box-shadow:
+
+    0 0 12px
+    rgba(120,170,255,.55);
 }
 
-.flower-stats-mini {
-  display: none;
-}
 
-.stat-editor {
-  display: none;
-}
+
+/* =========================
+   HIDDEN LOSER OVERLAP
+========================= */
+
 
 .slot.hidden-slot {
-  opacity: 0;
-  pointer-events: none;
-  border-color: transparent;
-  background: transparent;
+
+  opacity:0;
+
+  pointer-events:none;
+
+
+  background:transparent;
+
+  border-color:transparent;
 }
 
+
 .slot.hidden-slot::after {
-  display: none;
+
+  display:none;
+}
+
+
+
+/* =========================
+   STAT UI
+   hidden in garden view
+========================= */
+
+
+.flower-stats-mini,
+.stat-editor {
+
+  display:none;
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+
+@media(max-width:800px){
+
+
+  :root {
+
+    --node:140px;
+  }
+
+
+  .header h1 {
+
+    font-size:36px;
+  }
+
+
+  .garden-viewport {
+
+    justify-content:flex-start;
+
+    padding:20px;
+  }
+
 }

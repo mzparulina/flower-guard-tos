@@ -10,20 +10,9 @@ export const SLOT_SIZE =
 
 export const STEP_PX = SLOT_SIZE + SLOT_GAP;
 
-export interface LayoutBounds {
-  minRow: number;
-  maxRow: number;
-  minCol: number;
-  maxCol: number;
-  shiftRow: number;
-  shiftCol: number;
-  width: number;
-  height: number;
-}
-
 export function getLayoutBounds(
   positions: Record<string, Position>
-): LayoutBounds {
+) {
   const values = Object.values(positions);
 
   const minRow = Math.min(...values.map(p => p.row));
@@ -35,24 +24,23 @@ export function getLayoutBounds(
   const shiftCol = -minCol;
 
   return {
-    minRow,
-    maxRow,
-    minCol,
-    maxCol,
     shiftRow,
     shiftCol,
-    width: MARGIN * 2 + (maxCol + shiftCol) * STEP_PX + NODE_SIZE,
-    height: MARGIN * 2 + (maxRow + shiftRow) * STEP_PX + NODE_SIZE
+    width: MARGIN * 2 + (maxCol - minCol) * STEP_PX + NODE_SIZE,
+    height: MARGIN * 2 + (maxRow - minRow) * STEP_PX + NODE_SIZE
   };
 }
 
 export function toPixelLayout(
   positions: Record<string, Position>,
-  bounds: LayoutBounds
+  bounds: {
+    shiftRow: number;
+    shiftCol: number;
+  }
 ) {
   return Object.fromEntries(
-    Object.entries(positions).map(([flowerId, pos]) => [
-      flowerId,
+    Object.entries(positions).map(([id, pos]) => [
+      id,
       {
         x: MARGIN + (pos.col + bounds.shiftCol) * STEP_PX,
         y: MARGIN + (pos.row + bounds.shiftRow) * STEP_PX

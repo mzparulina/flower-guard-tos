@@ -1,296 +1,349 @@
-// src/data/flowers.ts
-
 export type StatType =
   | "strength"
   | "wisdom"
-  | "stamina"
+  | "morale"
   | "agility"
-  | "morale";
+  | "stamina";
 
-export type StatBonus = Partial<Record<StatType, number>>;
+export interface FlowerStats {
+  strength: number;
+  wisdom: number;
+  morale: number;
+  agility: number;
+  stamina: number;
+}
 
-export type FlowerPosition = {
-  row: number;
-  col: number;
-};
-
-export type FlowerData = {
+export interface Flower {
   id: string;
   name: string;
-  level: number;
-  power: number;
-  position: FlowerPosition;
-  isMain?: boolean;
-  prioritized?: boolean;
-  absorbRate: number;
-  preferredStats: StatType[];
-  totalStats: Record<StatType, number>;
-  equippedPlants: StatBonus[];
-};
 
-export const flowers: FlowerData[] = [
+  level: number;
+  role: "main" | "sub";
+  absorbRate: number;
+
+  primary: StatType;
+  secondary: StatType;
+
+  position: {
+    row: number;
+    col: number;
+  };
+
+  stats: FlowerStats;
+
+  combat: {
+    power: number;
+    pvpAtk: number;
+    pvpHp: number;
+    shield: number;
+    mergedShield: number;
+  };
+}
+
+
+export const flowers: Flower[] = [
   {
     id: "strawbie",
     name: "Strawbie",
+
     level: 7,
-    power: 105354,
-    position: { row: 1, col: 1 },
+    role: "sub",
     absorbRate: 0.5,
-    preferredStats: ["morale", "stamina"],
-    totalStats: {
-      strength: 550,
-      wisdom: 550,
-      stamina: 986,
-      agility: 970,
-      morale: 796,
+
+    primary: "morale",
+    secondary: "agility",
+
+    position: {
+      row: 1,
+      col: 1
     },
-    equippedPlants: [
-      { stamina: 114, morale: 114 },
-      { stamina: 114, morale: 114 },
-      { stamina: 114, morale: 114 },
-      { stamina: 340 },
-      { morale: 340 },
-      { stamina: 190 },
-      { stamina: 114, morale: 114 },
-    ],
+
+    stats: {
+      stamina: 587,
+      strength: 210,
+      wisdom: 210,
+      agility: 577,
+      morale: 1137
+    },
+
+    combat: {
+      power: 105354,
+      pvpAtk: 2070,
+      pvpHp: 41400,
+      shield: 49500,
+      mergedShield: 159750
+    }
   },
+
 
   {
     id: "tradescantia",
     name: "Tradescantia",
+
     level: 10,
-    power: 197120,
-    position: { row: 2, col: 1 },
+    role: "sub",
     absorbRate: 0.65,
-    preferredStats: ["stamina", "wisdom"],
-    totalStats: {
-      strength: 2650,
-      wisdom: 856,
-      stamina: 1326,
-      agility: 1930,
-      morale: 2290,
+
+    primary: "stamina",
+    secondary: "wisdom",
+
+    position: {
+      row: 2,
+      col: 1
     },
-    equippedPlants: [
-      { stamina: 190 },
-      { stamina: 114, wisdom: 114 },
-      { stamina: 340 },
-      { stamina: 114, wisdom: 114 },
-      { stamina: 190 },
-      { stamina: 189, wisdom: 189 },
-      { stamina: 189, wisdom: 189 },
-      { wisdom: 250 },
-    ],
+
+    stats: {
+      stamina: 3433,
+      strength: 850,
+      wisdom: 1219,
+      agility: 625,
+      morale: 737
+    },
+
+    combat: {
+      power: 197120,
+      pvpAtk: 8397,
+      pvpHp: 167940,
+      shield: 184875,
+      mergedShield: 327187
+    }
   },
+
 
   {
     id: "sweet_cherry",
     name: "Sweet Cherry",
+
     level: 7,
-    power: 122820,
-    position: { row: 2, col: 2 },
+    role: "sub",
     absorbRate: 0.5,
-    preferredStats: ["morale", "wisdom"],
-    totalStats: {
-      strength: 700,
-      wisdom: 816,
-      stamina: 500,
-      agility: 970,
-      morale: 1196,
+
+    primary: "morale",
+    secondary: "agility",
+
+    position: {
+      row: 2,
+      col: 2
     },
-    equippedPlants: [
-      { morale: 340 },
-      { wisdom: 114, morale: 114 },
-      { wisdom: 114, morale: 114 },
-      { morale: 290 },
-      { wisdom: 114, morale: 114 },
-      { wisdom: 250 },
-      { wisdom: 224, morale: 224 },
-    ],
+
+    stats: {
+      stamina: 254,
+      strength: 326,
+      wisdom: 578,
+      agility: 707,
+      morale: 1487
+    },
+
+    combat: {
+      power: 122820,
+      pvpAtk: 2070,
+      pvpHp: 41400,
+      shield: 67500,
+      mergedShield: 204750
+    }
   },
+
 
   {
     id: "lacecap",
     name: "Lacecap",
+
     level: 9,
-    power: 165420,
-    position: { row: 3, col: 1 },
+    role: "sub",
     absorbRate: 0.65,
-    preferredStats: ["stamina", "wisdom"],
-    totalStats: {
-      strength: 950,
-      wisdom: 636,
-      stamina: 1516,
-      agility: 1240,
-      morale: 1010,
+
+    primary: "stamina",
+    secondary: "wisdom",
+
+    position: {
+      row: 3,
+      col: 1
     },
-    equippedPlants: [
-      { stamina: 250 },
-      { stamina: 189, wisdom: 189 },
-      { stamina: 189, wisdom: 189 },
-      { stamina: 190 },
-      { stamina: 250 },
-      { stamina: 190 },
-      { stamina: 144, wisdom: 144 },
-      { stamina: 114, wisdom: 114 },
-    ],
+
+    stats: {
+      stamina: 2740,
+      strength: 460,
+      wisdom: 885,
+      agility: 572,
+      morale: 483
+    },
+
+    combat: {
+      power: 165420,
+      pvpAtk: 3450,
+      pvpHp: 69000,
+      shield: 105000,
+      mergedShield: 262500
+    }
   },
+
 
   {
     id: "velvet_futon",
     name: "Velvet Futon",
+
     level: 9,
-    power: 415882,
-    position: { row: 3, col: 2 },
-    isMain: true,
-    prioritized: true,
+    role: "main",
     absorbRate: 1,
-    preferredStats: ["wisdom", "morale"],
-    totalStats: {
-      strength: 0,
-      wisdom: 1606,
-      stamina: 0,
-      agility: 0,
-      morale: 516,
+
+    primary: "wisdom",
+    secondary: "morale",
+
+    position: {
+      row: 3,
+      col: 2
     },
-    equippedPlants: [
-      { wisdom: 250 },
-      { wisdom: 144, morale: 144 },
-      { wisdom: 250 },
-      { wisdom: 114, morale: 114 },
-      { wisdom: 144, morale: 144 },
-      { wisdom: 250 },
-      { wisdom: 114, morale: 114 },
-      { wisdom: 340 },
-    ],
+
+    stats: {
+      stamina: 2565,
+      strength: 3327,
+      wisdom: 6010,
+      agility: 4404,
+      morale: 3843
+    },
+
+    combat: {
+      power: 415882,
+      pvpAtk: 22850,
+      pvpHp: 457000,
+      shield: 762500,
+      mergedShield: 1456250
+    }
   },
+
 
   {
     id: "lacordini",
     name: "Lacordini",
+
     level: 7,
-    power: 117441,
-    position: { row: 3, col: 3 },
+    role: "sub",
     absorbRate: 0.5,
-    preferredStats: ["wisdom", "morale"],
-    totalStats: {
-      strength: 970,
-      wisdom: 1104,
-      stamina: 500,
-      agility: 700,
-      morale: 854,
+
+    primary: "wisdom",
+    secondary: "strength",
+
+    position: {
+      row: 3,
+      col: 3
     },
-    equippedPlants: [
-      { wisdom: 224, morale: 224 },
-      { wisdom: 144, morale: 144 },
-      { wisdom: 114, morale: 114 },
-      { wisdom: 114, morale: 114 },
-      { wisdom: 250 },
-      { wisdom: 144, morale: 144 },
-      { wisdom: 114, morale: 114 },
-    ],
+
+    stats: {
+      stamina: 222,
+      strength: 638,
+      wisdom: 1361,
+      agility: 290,
+      morale: 546
+    },
+
+    combat: {
+      power: 117441,
+      pvpAtk: 2070,
+      pvpHp: 41400,
+      shield: 58500,
+      mergedShield: 182250
+    }
   },
+
 
   {
     id: "morning_glory",
     name: "Morning Glory",
+
     level: 7,
-    power: 114293,
-    position: { row: 4, col: 1 },
+    role: "sub",
     absorbRate: 0.5,
-    preferredStats: ["wisdom", "stamina"],
-    totalStats: {
-      strength: 550,
-      wisdom: 1222,
-      stamina: 402,
-      agility: 970,
-      morale: 590,
+
+    primary: "wisdom",
+    secondary: "agility",
+
+    position: {
+      row: 4,
+      col: 1
     },
-    equippedPlants: [
-      { wisdom: 144, stamina: 144 },
-      { wisdom: 114, stamina: 114 },
-      { wisdom: 250 },
-      { wisdom: 190 },
-      { wisdom: 144, stamina: 144 },
-      { wisdom: 190 },
-      { wisdom: 190 },
-    ],
+
+    stats: {
+      stamina: 412,
+      strength: 210,
+      wisdom: 1350,
+      agility: 577,
+      morale: 223
+    },
+
+    combat: {
+      power: 114293,
+      pvpAtk: 2070,
+      pvpHp: 41400,
+      shield: 49500,
+      mergedShield: 159750
+    }
   },
+
 
   {
     id: "wind_chime",
     name: "Wind Chime",
+
     level: 7,
-    power: 150478,
-    position: { row: 4, col: 2 },
+    role: "sub",
     absorbRate: 0.5,
-    preferredStats: ["wisdom", "morale"],
-    totalStats: {
-      strength: 920,
-      wisdom: 1642,
-      stamina: 500,
-      agility: 990,
-      morale: 432,
+
+    primary: "wisdom",
+    secondary: "morale",
+
+    position: {
+      row: 4,
+      col: 2
     },
-    equippedPlants: [
-      { wisdom: 340 },
-      { wisdom: 144, morale: 144 },
-      { wisdom: 114, morale: 114 },
-      { wisdom: 340 },
-      { wisdom: 190 },
-      { wisdom: 340 },
-      { wisdom: 174, morale: 174 },
-    ],
+
+    stats: {
+      stamina: 288,
+      strength: 449,
+      wisdom: 1793,
+      agility: 793,
+      morale: 578
+    },
+
+    combat: {
+      power: 150478,
+      pvpAtk: 2070,
+      pvpHp: 41400,
+      shield: 81000,
+      mergedShield: 238500
+    }
   },
+
 
   {
     id: "passion_coconut",
     name: "Passion Coconut",
+
     level: 7,
-    power: 117930,
-    position: { row: 5, col: 1 },
+    role: "sub",
     absorbRate: 0.5,
-    preferredStats: ["wisdom", "stamina"],
-    totalStats: {
-      strength: 970,
-      wisdom: 1538,
-      stamina: 288,
-      agility: 550,
-      morale: 550,
+
+    primary: "wisdom",
+    secondary: "strength",
+
+    position: {
+      row: 5,
+      col: 1
     },
-    equippedPlants: [
-      { wisdom: 144, stamina: 144 },
-      { wisdom: 190 },
-      { wisdom: 340 },
-      { wisdom: 144, stamina: 144 },
-      { wisdom: 340 },
-      { wisdom: 190 },
-      { wisdom: 190 },
-    ],
-  },
+
+    stats: {
+      stamina: 411,
+      strength: 638,
+      wisdom: 1578,
+      agility: 239,
+      morale: 239
+    },
+
+    combat: {
+      power: 117930,
+      pvpAtk: 2070,
+      pvpHp: 41400,
+      shield: 58500,
+      mergedShield: 182250
+    }
+  }
 ];
-
-export const inventory = {
-  singleStatsOwned: 23,
-  doubleStatsOwned: 24,
-
-  availableTypes: [
-    "strength",
-    "wisdom",
-    "stamina",
-    "agility",
-    "morale",
-  ] as StatType[],
-
-  doubleStatTypes: [
-    ["strength", "wisdom"],
-    ["strength", "stamina"],
-    ["strength", "agility"],
-    ["strength", "morale"],
-    ["wisdom", "stamina"],
-    ["wisdom", "agility"],
-    ["wisdom", "morale"],
-    ["stamina", "agility"],
-    ["stamina", "morale"],
-    ["agility", "morale"],
-  ] as [StatType, StatType][],
-};

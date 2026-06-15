@@ -1,46 +1,64 @@
-import { STAT_TYPES } from "../types/stats";
-import type { StatTotals, StatType } from "../types/stats";
+import { flowers, type FlowerStats, type StatType } from "../data/flowers";
 
-interface Props {
-  primaryStat: StatType;
-  secondaryStat: StatType;
-  totals: StatTotals;
-  levels: StatTotals;
-}
+const statOrder: StatType[] = [
+  "wisdom",
+  "morale",
+  "stamina",
+  "strength",
+  "agility"
+];
 
-export default function StatSummary({
-  primaryStat,
-  secondaryStat,
-  totals,
-  levels
-}: Props) {
+const statLabel: Record<StatType, string> = {
+  wisdom: "Wisdom",
+  morale: "Morale",
+  stamina: "Stamina",
+  strength: "Strength",
+  agility: "Agility"
+};
+
+const getTotals = (): FlowerStats => {
+  return flowers.reduce(
+    (total, flower) => ({
+      wisdom: total.wisdom + flower.stats.wisdom,
+      morale: total.morale + flower.stats.morale,
+      stamina: total.stamina + flower.stats.stamina,
+      strength: total.strength + flower.stats.strength,
+      agility: total.agility + flower.stats.agility
+    }),
+    {
+      wisdom: 0,
+      morale: 0,
+      stamina: 0,
+      strength: 0,
+      agility: 0
+    }
+  );
+};
+
+export default function StatSummary() {
+  const totals = getTotals();
+
+  const totalPower = flowers.reduce(
+    (sum, flower) => sum + flower.combat.power,
+    0
+  );
+
   return (
-    <div className="mt-2 rounded-lg border border-slate-700 bg-slate-950/80 p-2 text-xs">
-      <div className="mb-2 font-bold text-slate-200">Stats</div>
+    <section className="summary-panel">
+      <h2>Garden Summary</h2>
 
-      {STAT_TYPES.map(stat => {
-        const isPrimary = stat === primaryStat;
-        const isSecondary = stat === secondaryStat;
-
-        return (
-          <div
-            key={stat}
-            className={[
-              "flex justify-between gap-2 py-0.5",
-              isPrimary && "font-bold text-emerald-300",
-              isSecondary && "font-semibold text-cyan-300",
-              !isPrimary && !isSecondary && "text-slate-400"
-            ].filter(Boolean).join(" ")}
-          >
-            <span>{stat.toUpperCase()}</span>
-            <span>{totals[stat]} · Lv {levels[stat]}</span>
-          </div>
-        );
-      })}
-
-      <div className="mt-2 border-t border-slate-800 pt-1 text-[10px] text-slate-500">
-        Emerald = Primary · Cyan = Secondary
+      <div className="summary-power">
+        Total Power: {totalPower.toLocaleString()}
       </div>
-    </div>
+
+      <div className="summary-grid">
+        {statOrder.map(stat => (
+          <div key={stat} className="summary-card">
+            <span>{statLabel[stat]}</span>
+            <strong>{totals[stat].toLocaleString()}</strong>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

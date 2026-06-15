@@ -1,56 +1,46 @@
 import { flowers } from "../data/flowers";
-import { useDiamondLayout } from "../hooks/useDiamondLayout";
-import { useStats } from "../hooks/useStats";
 import FlowerNode from "./FlowerNode";
 
+const diamondRows = [
+  [0],
+  [1, 2],
+  [3, 4, 5],
+  [6, 7],
+  [8],
+];
+
 export default function GardenCanvas() {
-  const {
-    pixelLayout,
-    bounds,
-    overlapOwners,
-    hiddenSlots
-  } = useDiamondLayout();
-
-  const {
-    stats,
-    getSlotStats,
-    updateSlotStats
-  } = useStats();
-
   return (
-    <div className="garden-viewport">
-      <div
-        className="garden-canvas"
-        style={{
-          width: bounds.width,
-          height: bounds.height
-        }}
-      >
-        {flowers.map(flower => {
-          const pos = pixelLayout[flower.id];
+    <div className="garden-canvas">
 
-          if (!pos) return null;
+      <h2 className="garden-title">
+        Flower Guard
+      </h2>
 
-          return (
-            <div
-              key={flower.id}
-              className="flower-position"
-              style={{
-                transform: `translate3d(${pos.x}px, ${pos.y}px, 0)`
-              }}
-            >
-              <FlowerNode
-                flower={flower}
-                flowerStats={stats[flower.id]}
-                overlaps={overlapOwners[flower.id]}
-                hiddenSlots={hiddenSlots[flower.id]}
-                getSlotStats={getSlotStats}
-                updateSlotStats={updateSlotStats}
-              />
-            </div>
-          );
-        })}
+      <div className="diamond-layout">
+
+        {diamondRows.map((row, index) => (
+          <div 
+            key={index}
+            className="diamond-row"
+          >
+
+            {row.map((flowerIndex) => {
+              const flower = flowers[flowerIndex];
+
+              return (
+                <FlowerNode
+                  key={flower.id}
+                  flower={flower}
+                />
+              );
+            })}
+
+          </div>
+        ))}
+
       </div>
+
     </div>
   );
 }

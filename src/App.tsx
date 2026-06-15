@@ -1,19 +1,12 @@
+import StatSummary from "./components/StatSummary";
 import GardenCanvas from "./components/GardenCanvas";
+import "./styles/globals.css";
 
 export default function App() {
   return (
-    <div>
-      <header className="header">
-        <h1>
-          Flower Guardian Planner
-        </h1>
-
-        <p>
-          Diamond Layout & Shared Plant Visualization
-        </p>
-      </header>
-
+    <main className="app-shell">
+      <StatSummary />
       <GardenCanvas />
-    </div>
+    </main>
   );
 }

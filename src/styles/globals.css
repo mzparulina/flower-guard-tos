@@ -1,414 +1,189 @@
-/* =========================
-   FLOWER GUARDIAN GLOBAL UI
-========================= */
-
-:root {
-  --bg: #0b1020;
-
-  --panel: rgba(255,255,255,.06);
-  --panel2: rgba(255,255,255,.10);
-
-  --open-bg: rgba(120,255,190,.18);
-  --open-border: rgba(120,255,190,.45);
-
-  --closed-bg: rgba(255,120,160,.12);
-  --closed-border: rgba(255,120,160,.28);
-
-  --center-bg: rgba(120,170,255,.25);
-  --center-border: rgba(120,170,255,.55);
-
-  --shared-border: rgba(120,170,255,.95);
-
-  /* MUST MATCH layoutMath.ts */
-  --node: 170px;
-  --padding: 10px;
-  --gap: 8px;
+.app-shell {
+  min-height: 100vh;
+  padding: 32px;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.75), transparent 35%),
+    linear-gradient(135deg, #f8e8ff 0%, #e7f7ff 45%, #fff7da 100%);
+  color: #2f2440;
+  font-family: Inter, system-ui, sans-serif;
 }
 
-
-/* =========================
-   RESET
-========================= */
-
-* {
-  box-sizing: border-box;
+.garden-panel,
+.summary-panel {
+  max-width: 1180px;
+  margin: 0 auto 24px;
+  padding: 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 20px 60px rgba(91, 63, 135, 0.16);
+  backdrop-filter: blur(14px);
 }
 
-html,
-body,
-#root {
+.garden-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.garden-title h2,
+.summary-panel h2 {
   margin: 0;
-  width: 100%;
-  min-height: 100%;
+  font-size: 28px;
 }
 
-
-body {
-
-  background:
-    radial-gradient(
-      900px 500px at 50% -10%,
-      rgba(120,170,255,.14),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 600px at 20% 20%,
-      rgba(255,120,220,.08),
-      transparent 60%
-    ),
-    var(--bg);
-
-  color: #e7ecff;
-
-  font-family:
-    Inter,
-    system-ui,
-    sans-serif;
+.garden-title p {
+  margin: 6px 0 0;
+  opacity: 0.7;
 }
 
-
-/* =========================
-   HEADER
-========================= */
-
-.header {
-  text-align:center;
-  padding:40px 20px 10px;
+.diamond-garden {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
 }
 
-
-.header h1 {
-
-  margin:0;
-
-  font-size:52px;
-  font-weight:700;
-
-  letter-spacing:-2px;
+.diamond-row {
+  display: grid;
+  gap: 18px;
 }
 
-
-.header p {
-
-  margin-top:12px;
-
-  font-size:18px;
-
-  color:#9ca3af;
+.diamond-row-1 {
+  grid-template-columns: repeat(1, 220px);
 }
 
-
-/* =========================
-   VIEWPORT
-========================= */
-
-
-.garden-viewport {
-
-  width:100vw;
-
-  overflow:auto;
-
-  padding:
-    30px
-    60px
-    80px;
-
-  display:flex;
-
-  justify-content:center;
+.diamond-row-2 {
+  grid-template-columns: repeat(2, 220px);
 }
 
-
-/* =========================
-   CANVAS
-========================= */
-
-
-.garden-canvas {
-
-  position:relative;
-
-
-  border-radius:24px;
-
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,.035),
-      rgba(255,255,255,.015)
-    );
-
-
-  border:
-    1px solid
-    rgba(255,255,255,.12);
-
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.08),
-    0 30px 80px rgba(0,0,0,.35);
-
-
-  overflow:hidden;
+.diamond-row-3 {
+  grid-template-columns: repeat(3, 220px);
 }
-
-
-/* absolute flower position */
-.flower-position {
-
-  position:absolute;
-
-  left:0;
-  top:0;
-
-  will-change:transform;
-}
-
-
-/* =========================
-   FLOWER NODE
-========================= */
-
 
 .flower-node {
-
-  width: var(--node);
-  height: var(--node);
-
-  padding: var(--padding);
-
-  /*
-    IMPORTANT:
-    remove panel background
-    because flowers physically overlap
-  */
-  background: transparent;
-
-  border: none;
-
-  box-shadow: none;
-
-  overflow: visible;
+  min-height: 210px;
+  padding: 16px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #ffffff 0%, #fff8ff 100%);
+  border: 2px solid rgba(183, 151, 221, 0.35);
+  box-shadow: 0 12px 30px rgba(70, 44, 120, 0.12);
+  position: relative;
 }
 
-
-/* =========================
-   3x3 SLOT GRID
-========================= */
-
-
-.flower-slots {
-
-  width:100%;
-  height:100%;
-
-
-  display:grid;
-
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-
-  grid-template-rows:
-    repeat(3,1fr);
-
-
-  gap:var(--gap);
-}
-
-
-
-/* =========================
-   SLOT
-========================= */
-
-
-.slot {
-
-  width:100%;
-  height:100%;
-
-
-  border-radius:14px;
-
-
-  border:
-    1px solid
-    rgba(255,255,255,.12);
-
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-
-  position:relative;
-
-
-  transition:.15s ease;
-}
-
-
-.slot:hover {
-
-  transform:scale(1.05);
-}
-
-
-/* OPEN SLOT */
-
-.slot.open {
-
-  background:
-    var(--open-bg);
-
-
-  border-color:
-    var(--open-border);
-}
-
-
-/* LOCKED SLOT */
-
-.slot.closed {
-
-  background:
-    var(--closed-bg);
-
-
-  border-color:
-    var(--closed-border);
-}
-
-
-/* CENTER FLOWER */
-
-.slot.center {
-
-  background:
-    var(--center-bg);
-
-
-  border-color:
-    var(--center-border);
-
-
-  color:white;
-
-
-  font-size:22px;
-
-  font-weight:900;
-
-
-  letter-spacing:.5px;
-}
-
-
-
-/* =========================
-   SHARED PLANT OWNER
-========================= */
-
-
-.slot.overlap::after {
-
-  content:"";
-
-
-  position:absolute;
-
-
-  inset:7px;
-
-
-  border-radius:10px;
-
-
-  border:
-
-    3px solid
-
-    var(--shared-border);
-
-
+.flower-node-main {
+  border-color: rgba(255, 186, 73, 0.95);
   box-shadow:
-
-    0 0 12px
-    rgba(120,170,255,.55);
+    0 0 0 4px rgba(255, 210, 100, 0.25),
+    0 18px 40px rgba(122, 79, 0, 0.18);
 }
 
-
-
-/* =========================
-   HIDDEN LOSER OVERLAP
-========================= */
-
-
-.slot.hidden-slot {
-
-  opacity:0;
-
-  pointer-events:none;
-
-
-  background:transparent;
-
-  border-color:transparent;
+.flower-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: start;
 }
 
-
-.slot.hidden-slot::after {
-
-  display:none;
+.flower-name {
+  font-weight: 800;
+  font-size: 18px;
 }
 
-
-
-/* =========================
-   STAT UI
-   hidden in garden view
-========================= */
-
-
-.flower-stats-mini,
-.stat-editor {
-
-  display:none;
+.flower-level {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #f0e2ff;
+  font-size: 13px;
+  font-weight: 800;
 }
 
+.flower-role {
+  margin-top: 10px;
+  width: max-content;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #ffe7a8;
+  font-size: 12px;
+  font-weight: 900;
+}
 
+.flower-focus {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #6d4c91;
+}
 
-/* =========================
-   MOBILE
-========================= */
+.flower-stats {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  font-size: 13px;
+}
 
+.flower-stats div {
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(119, 91, 166, 0.08);
+  font-weight: 700;
+}
 
-@media(max-width:800px){
+.flower-power {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(80, 55, 110, 0.14);
+  font-weight: 900;
+  font-size: 14px;
+}
 
+.summary-power {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 900;
+}
 
-  :root {
+.summary-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
 
-    --node:140px;
+.summary-card {
+  padding: 16px;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 10px 24px rgba(70, 44, 120, 0.1);
+}
+
+.summary-card span {
+  display: block;
+  font-size: 13px;
+  opacity: 0.65;
+  margin-bottom: 6px;
+}
+
+.summary-card strong {
+  font-size: 22px;
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    padding: 16px;
   }
 
-
-  .header h1 {
-
-    font-size:36px;
+  .diamond-row-1,
+  .diamond-row-2,
+  .diamond-row-3 {
+    grid-template-columns: 1fr;
+    width: 100%;
   }
 
-
-  .garden-viewport {
-
-    justify-content:flex-start;
-
-    padding:20px;
+  .flower-node {
+    width: 100%;
   }
 
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

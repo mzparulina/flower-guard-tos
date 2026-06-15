@@ -1,15 +1,16 @@
 import type { Flower } from "../data/flowers";
+import AbsorptionGrid from "./AbsorptionGrid";
 
 type FlowerNodeProps = {
   flower: Flower;
 };
 
-const statLabel: Record<string, string> = {
+const statLabel = {
   strength: "STR",
   wisdom: "WIS",
   morale: "MOR",
   agility: "AGI",
-  stamina: "STA"
+  stamina: "STA",
 };
 
 export default function FlowerNode({ flower }: FlowerNodeProps) {
@@ -30,13 +31,7 @@ export default function FlowerNode({ flower }: FlowerNodeProps) {
         {statLabel[flower.primary]} / {statLabel[flower.secondary]}
       </div>
 
-      <div className="flower-stats">
-        <div>WIS {flower.stats.wisdom}</div>
-        <div>MOR {flower.stats.morale}</div>
-        <div>STA {flower.stats.stamina}</div>
-        <div>STR {flower.stats.strength}</div>
-        <div>AGI {flower.stats.agility}</div>
-      </div>
+      <AbsorptionGrid flower={flower} />
 
       <div className="flower-power">
         Power {flower.combat.power.toLocaleString()}

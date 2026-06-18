@@ -3,6 +3,8 @@ import AbsorptionGrid from "./AbsorptionGrid";
 
 type FlowerNodeProps = {
   flower: Flower;
+  selected?: boolean;
+  onClick?: () => void;
 };
 
 const statLabel = {
@@ -10,14 +12,26 @@ const statLabel = {
   wisdom: "WIS",
   morale: "MOR",
   agility: "AGI",
-  stamina: "STA",
+  stamina: "STA"
 };
 
-export default function FlowerNode({ flower }: FlowerNodeProps) {
+export default function FlowerNode({
+  flower,
+  selected = false,
+  onClick
+}: FlowerNodeProps) {
   const isMain = flower.role === "main";
 
   return (
-    <div className={`flower-node ${isMain ? "flower-node-main" : ""}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={[
+        "flower-node",
+        isMain ? "flower-node-main" : "",
+        selected ? "flower-node-selected" : ""
+      ].join(" ")}
+    >
       <div className="flower-header">
         <span className="flower-name">{flower.name}</span>
         <span className="flower-level">Lv {flower.level}</span>
@@ -36,6 +50,6 @@ export default function FlowerNode({ flower }: FlowerNodeProps) {
       <div className="flower-power">
         Power {flower.combat.power.toLocaleString()}
       </div>
-    </div>
+    </button>
   );
 }

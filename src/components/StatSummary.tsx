@@ -1,4 +1,8 @@
-import { flowers, type FlowerStats, type StatType } from "../data/flowers";
+import type { Flower, FlowerStats, StatType } from "../data/flowers";
+
+type StatSummaryProps = {
+  flowers: Flower[];
+};
 
 const statOrder: StatType[] = [
   "wisdom",
@@ -16,8 +20,8 @@ const statLabel: Record<StatType, string> = {
   agility: "Agility"
 };
 
-const getTotals = (): FlowerStats => {
-  return flowers.reduce(
+export default function StatSummary({ flowers }: StatSummaryProps) {
+  const totals: FlowerStats = flowers.reduce(
     (total, flower) => ({
       wisdom: total.wisdom + flower.stats.wisdom,
       morale: total.morale + flower.stats.morale,
@@ -33,10 +37,6 @@ const getTotals = (): FlowerStats => {
       agility: 0
     }
   );
-};
-
-export default function StatSummary() {
-  const totals = getTotals();
 
   const totalPower = flowers.reduce(
     (sum, flower) => sum + flower.combat.power,

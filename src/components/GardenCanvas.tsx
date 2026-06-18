@@ -1,9 +1,19 @@
-import { flowers } from "../data/flowers";
+import type { Flower } from "../data/flowers";
 import FlowerNode from "./FlowerNode";
+
+type GardenCanvasProps = {
+  flowers: Flower[];
+  selectedFlowerId: string;
+  onSelectFlower: (flowerId: string) => void;
+};
 
 const rows = [1, 2, 3, 4, 5];
 
-export default function GardenCanvas() {
+export default function GardenCanvas({
+  flowers,
+  selectedFlowerId,
+  onSelectFlower
+}: GardenCanvasProps) {
   return (
     <section className="garden-canvas">
       <div className="garden-title-block">
@@ -23,7 +33,12 @@ export default function GardenCanvas() {
               className={`flowerbed-row flowerbed-row-${rowFlowers.length}`}
             >
               {rowFlowers.map(flower => (
-                <FlowerNode key={flower.id} flower={flower} />
+                <FlowerNode
+                  key={flower.id}
+                  flower={flower}
+                  selected={flower.id === selectedFlowerId}
+                  onClick={() => onSelectFlower(flower.id)}
+                />
               ))}
             </div>
           );
